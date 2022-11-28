@@ -84,7 +84,6 @@ public class ExpiringStateExercise extends ExerciseBase {
 	}
 
 	public static class EnrichmentFunction extends KeyedCoProcessFunction<Long, TaxiRide, TaxiFare, Tuple2<TaxiRide, TaxiFare>> {
-
 		private ValueState<TaxiRide> taxiRideValueState;
 		private ValueState<TaxiFare> taxiFareValueState;
 
@@ -96,7 +95,6 @@ public class ExpiringStateExercise extends ExerciseBase {
 			ValueStateDescriptor<TaxiFare> taxiFareDescriptor = new ValueStateDescriptor<>(
 					"persistedTaxiFare", TaxiFare.class
 			);
-
 			this.taxiRideValueState = getRuntimeContext().getState(taxiRideDescriptor);
 			this.taxiFareValueState = getRuntimeContext().getState(taxiFareDescriptor);
 		}

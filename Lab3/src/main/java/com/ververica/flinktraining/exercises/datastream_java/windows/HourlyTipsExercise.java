@@ -60,7 +60,7 @@ public class HourlyTipsExercise extends ExerciseBase {
 
 		// start the data generator
 		DataStream<TaxiFare> fares = env.addSource(fareSourceOrTest(new TaxiFareSource(input, maxEventDelay, servingSpeedFactor)));
-		// compute tips per hour for each driver
+
 		DataStream<Tuple3<Long, Long, Float>> hourlyTips = fares
 				.keyBy((TaxiFare fare) -> fare.driverId)
 				.window(TumblingEventTimeWindows.of(Time.hours(1)))
@@ -73,14 +73,11 @@ public class HourlyTipsExercise extends ExerciseBase {
 		// execute the transformation pipeline
 		env.execute("Hourly Tips (java)");
 	}
-	/*
-	 * Wraps the pre-aggregated result into a tuple along with the window's timestamp and key.
-	 */
-	public static class AddTips extends ProcessWindowFunction<
-				TaxiFare, Tuple3<Long, Long, Float>, Long, TimeWindow> {
+
+	public static class AddTips extends ProcessWindowFunction<TaxiFare, Tuple3<Long, Long, Float>, Long, TimeWindow> {
 		@Override
 		public void process(Long key, Context context, Iterable<TaxiFare> fares, Collector<Tuple3<Long, Long, Float>> out) {
-			float sumOfTips = 0F;
+			float sumOfTips = 0.0;
 			for (TaxiFare f : fares) {
 				sumOfTips += f.tip;
 			}

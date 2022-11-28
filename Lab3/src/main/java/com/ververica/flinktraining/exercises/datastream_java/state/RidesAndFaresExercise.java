@@ -76,7 +76,6 @@ public class RidesAndFaresExercise extends ExerciseBase {
 	}
 
 	public static class EnrichmentFunction extends RichCoFlatMapFunction<TaxiRide, TaxiFare, Tuple2<TaxiRide, TaxiFare>> {
-
 		private ValueState<TaxiRide> taxiRideValueState;
 		private ValueState<TaxiFare> taxiFareValueState;
 
